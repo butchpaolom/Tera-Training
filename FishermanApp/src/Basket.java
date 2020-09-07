@@ -1,7 +1,7 @@
 
 public class Basket<T> {
 
-	Seafood[] seafoods = new Seafood[10];
+	private Seafood[] seafoods = new Seafood[10];
 	private boolean isFull;
 
 	public void put(T seafood) {
