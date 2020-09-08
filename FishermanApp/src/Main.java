@@ -5,6 +5,7 @@ public class Main {
 		Fisherman fisherman = new Fisherman();
 		boolean isStaying = true;
 		while (isStaying) {
+			System.out.println("--");
 			System.out.println("Fisherman, what do you want to do?!");
 			System.out.println("1. Catch Seafood");
 			System.out.println("2. Eat Fish");

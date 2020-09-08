@@ -8,19 +8,19 @@ public class Basket<T> {
 		setSeafoodTypeString(seafood);
 		String seafoodName = seafood.getName();
 		int seafoodMass = seafood.getSize();
+		if (isFull) {
+			System.out.println(
+					"Your " + seafoodTypeString + " basket is full! You threw the " + seafoodName + " to the sea!\n");
+		}
 		for (int i = 0; i < seafoods.length; i++) {
 			if (seafoods[i] == null) {
 				if (seafoods.length - 1 == i) {
 					isFull = true;
 				}
 				seafoods[i] = seafood;
-				System.out.println("You stored the " + seafoodName + " - " + seafoodMass + "g to the basket.");
+				System.out.println("You stored the " + seafoodName + " - " + seafoodMass + "g to the basket.\n");
 				break;
 			}
-		}
-		if (isFull) {
-			System.out.println(
-					"Your " + seafoodTypeString + " basket is full! You threw the " + seafoodName + " to the sea!");
 		}
 	}
 
@@ -30,6 +30,7 @@ public class Basket<T> {
 				Seafood seafood = seafoods[i];
 				seafoods[i] = null;
 				isFull = false;
+				shiftSeafoods();
 				return (Seafood) seafood;
 			}
 		}
@@ -58,6 +59,14 @@ public class Basket<T> {
 		if (seafoodTypeString == null) {
 			seafoodTypeString = seafood.getClass().getSimpleName();
 		}
+	}
+	
+	private void shiftSeafoods() {
+		Seafood[] newSeafoodsPosition = new Seafood[10];
+		for (int i=1; i<seafoods.length;i++) {
+			newSeafoodsPosition[i-1] = seafoods[i];
+		}
+		seafoods = newSeafoodsPosition;
 	}
 
 }

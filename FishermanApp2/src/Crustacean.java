@@ -21,6 +21,6 @@ public class Crustacean extends Seafood{
 	public void cook(int CookType) {
 		String seafoodName = this.getName();
 		int seafoodMass = this.getSize();
-		System.out.println("You " + COOK_TYPES[CookType] + " a " + seafoodMass + "g " + seafoodName + ". ");
+		System.out.println("You " + COOK_TYPES[CookType] + " a " + seafoodMass + "g " + seafoodName + ". \n");
 	}
 }

@@ -13,6 +13,7 @@ public class Main {
 			System.out.println("4. Check Basket");
 			System.out.println("5. Go home");
 			int option = sc.nextInt();
+			System.out.print("\n");
 			switch (option) {
 			case 1:
 				fisherman.catchSeafood();

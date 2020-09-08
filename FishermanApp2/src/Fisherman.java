@@ -9,11 +9,7 @@ public class Fisherman implements FishermanAction {
 	public void catchSeafood() {
 		int randomMass = Randomizer.range(MIN_MASS, MAX_MASS);
 		Class<?> randomType = Randomizer.arrays(SEAFOOD_CLASSES);
-		if (randomType.equals(Fish.class)) {
-			fishBasket.put(new Fish(randomMass));
-		} else if (randomType.equals(Crustacean.class)) {
-			crustaceanBasket.put(new Crustacean(randomMass));
-		}
+		identifyBasket(randomType, randomMass);
 	}
 
 	public void eatFish() {
@@ -28,23 +24,21 @@ public class Fisherman implements FishermanAction {
 		Seafood seafood = basket.get();
 		if (seafood != null) {
 			seafood.cook(Randomizer.integer(arrayLength));
-		}
-		else {
-			System.out.println("You have none! Go catch!");
+		} else {
+			System.out.println("You have none! Go catch!\n");
 		}
 	}
 
 	public void checkBaskets() {
-		listSeafoods(crustaceanBasket);
 		listSeafoods(fishBasket);
+		listSeafoods(crustaceanBasket);
 	}
 
 	private void listSeafoods(Basket<?> basket) {
 		if (basket.isEmpty()) {
-			System.out.println("--Empty basket--");
+			System.out.println("--Empty basket--\n");
 			return;
-		}
-		else {
+		} else {
 			String seafoodType = basket.getSeafoodTypeString();
 			System.out.println("--" + seafoodType + " basket--");
 		}
@@ -55,6 +49,15 @@ public class Fisherman implements FishermanAction {
 				int seafoodMass = seafoods[i].getSize();
 				System.out.println(i + 1 + ". " + seafoodName + " - " + seafoodMass + "g");
 			}
+		}
+		System.out.print("\n");
+	}
+
+	private void identifyBasket(Class<?> seafoodType, int mass) {
+		if (seafoodType.equals(Fish.class)) {
+			fishBasket.put(new Fish(mass));
+		} else if (seafoodType.equals(Crustacean.class)) {
+			crustaceanBasket.put(new Crustacean(mass));
 		}
 	}
 }

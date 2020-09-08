@@ -26,6 +26,7 @@ public class Basket<T> {
 			if (seafoods[i] instanceof Seafood) {
 				Seafood seafood = seafoods[i];
 				seafoods[i] = null;
+				shiftSeafoods();
 				isFull = false;
 				return (Seafood) seafood;
 			}
@@ -53,6 +54,14 @@ public class Basket<T> {
 				break;
 			}
 		}
+	}
+	
+	private void shiftSeafoods() {
+		Seafood[] newSeafoodsPosition = new Seafood[10];
+		for (int i=1; i<seafoods.length;i++) {
+			newSeafoodsPosition[i-1] = seafoods[i];
+		}
+		seafoods = newSeafoodsPosition;
 	}
 
 }
