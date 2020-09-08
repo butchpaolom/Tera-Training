@@ -9,7 +9,7 @@ abstract public class Seafood implements CookSeafood{
 	}
 	
 	public void cook(int cookType) {
-		System.out.println("You cooked a " + getName());
+		System.out.println("You cooked a " + name);
 	}
 
 	public String getName() {
