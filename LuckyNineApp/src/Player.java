@@ -7,6 +7,8 @@ public abstract class Player {
 	}
 
 	public void setNameString(String nameString) {
-		this.nameString = nameString;
+		if(nameString != CardGameSystem.CPU_NAME) {
+			this.nameString = nameString;
+		}
 	}
 }
