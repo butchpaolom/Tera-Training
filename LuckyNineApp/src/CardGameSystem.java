@@ -1,18 +1,19 @@
 
 public abstract class CardGameSystem {
-	private Hand[] hands;
+	private Player[] players;
 	public static final String CPU_NAME = "CPU";
 
-	public CardGameSystem(Hand userHand) {
-		this(new Hand(CPU_NAME), userHand);
+	public CardGameSystem(Player player) {
+		this(new Player(CPU_NAME), player);
+	}
+	
+	public CardGameSystem(Player... players) {
+		this.players = players;
 	}
 
-	public CardGameSystem(Hand... hands) {
-		this.hands = hands;
-	}
 
-	public Hand[] getHands() {
-		return hands;
+	public Player[] getPlayers() {
+		return players;
 	}
 
 	public abstract void start();

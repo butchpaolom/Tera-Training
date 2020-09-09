@@ -1,51 +1,39 @@
 
-public class Hand extends Player{
+public class Hand {
 	private TalkingCard[] talkingCards;
 	private boolean isFull;
 	private int talkingCardsValue;
-	
-	public Hand(String nameString) {
-		this(nameString, 3);
-	}
-	
-	public Hand(String nameString, int totalCards) {
-		setNameString(nameString);
+
+	public Hand(int totalCards) {
 		talkingCards = new TalkingCard[totalCards];
 	}
-	
+
 	public void releaseAllTalkingCards() {
 		for (int i = 0; i < talkingCards.length; i++) {
-			talkingCards[i]=null;
+			talkingCards[i] = null;
 		}
-		isFull=false;
+		isFull = false;
 	}
 
-	public void receiveTalkingCard(TalkingCard talkingCard) {
+	public void addTalkingCard(TalkingCard talkingCard) {
 		if (isFull) {
-			System.out.println("You can't ask for more cards!");
+			System.out.println("Hand is full! Can't accept anymore.");
 		} else {
-			System.out.println("[" + getNameString() + "]:" + " I received a card.");
 			for (int i = 0; i < talkingCards.length; i++) {
 				if (talkingCards[i] == null) {
+					talkingCards[i] = talkingCard;
 					if (i == talkingCards.length - 1) {
 						isFull = true;
 					}
-					talkingCards[i] = talkingCard;
 					talkingCardsValue += talkingCards[i].getRankValue();
 					break;
 				}
 			}
-
 		}
 	}
 
-	public void displayAllTalkingCards() {
-		System.out.println("--Cards of " + getNameString() + "--");
-		for (TalkingCard talkingCard : talkingCards) {
-			if (talkingCard != null) {
-				talkingCard.talk();
-			}
-		}
+	public TalkingCard[] getTalkingCards() {
+		return talkingCards;
 	}
 
 	public int getTalkingCardsValue() {

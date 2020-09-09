@@ -17,12 +17,10 @@ public class TalkingCard {
 
 	private Rank rank;
 	private Suit suit;
-	private int rankValue;
 
 	public TalkingCard(Suit suit, Rank rank) {
 		this.suit = suit;
 		this.rank = rank;
-		rankValue = rank.value;
 	}
 
 	public void talk() {
@@ -30,6 +28,6 @@ public class TalkingCard {
 	}
 	
 	public int getRankValue() {
-		return rankValue;
+		return rank.value;
 	}
 }

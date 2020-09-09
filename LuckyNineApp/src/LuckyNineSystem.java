@@ -1,92 +1,106 @@
 import java.util.Scanner;
 
 public class LuckyNineSystem extends CardGameSystem {
-	private Deck deck;
+	private Deck<TalkingCard> deck = new Deck<TalkingCard>();
 	private Scanner scanner = new Scanner(System.in);
 	private final int MAX_DRAW = 3;
 	private long breakTime;
-	private Hand[] hands;
+	private Player[] players;
 
-	public LuckyNineSystem(Hand userHand) {
-		this(0, userHand);
+	public LuckyNineSystem(Player player) {
+		this(0, player);
 	}
 
-	public LuckyNineSystem(long breakTime, Hand userHand) {
-		super(userHand);
+	public LuckyNineSystem(long breakTime, Player player) {
+		super(player);
+		this.breakTime = breakTime;
+		this.players = getPlayers();
+	}
+
+	public LuckyNineSystem(long breakTime, Player... players) {
+		super(players);
 		this.breakTime = breakTime * 1000;
-		hands = getHands();
-	}
-
-	public LuckyNineSystem(Hand... userHands) {
-		this(0, userHands);
-	}
-
-	public LuckyNineSystem(long breakTime, Hand... userHands) {
-		super(userHands);
-		this.breakTime = breakTime * 1000;
-		hands = getHands();
+		this.players = getPlayers();
 	}
 
 	public void start() {
-		resetTalkingCards();
-		deck = new Deck();
+		collectTalkingCards();
+		deck.generateCards();
 		distributeCards();
 		announceWinner();
 		displayCards();
-		goBreak();
+		goBreak(breakTime);
 	}
-	
-	private void goBreak() {
+
+	private void goBreak(long time) {
 		try {
-			Thread.sleep(breakTime);
+			Thread.sleep(time * 1000);
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
 	}
 
-	private void giveCard(Hand hand) {
+	private void giveCard(Player player) {
 		TalkingCard talkingCard = deck.releaseRandomTalkingCard();
-		hand.receiveTalkingCard(talkingCard);
-		if (!hand.getNameString().equals(CPU_NAME)) {
+		player.receiveTalkingCard(talkingCard);
+		if (!player.getNameString().equals(CPU_NAME)) {
 			talkingCard.talk();
 		}
 	}
 
 	private void distributeCards() {
 		int draws = 0;
-		for (int i = 0; i < MAX_DRAW * hands.length; i++) {
-			if (i % hands.length == 0) {
+		for (int i = 0; i < MAX_DRAW * players.length; i++) {
+			if (i % players.length == 0) {
 				draws++;
 			}
-			String name = hands[i % hands.length].getNameString();
+			String name = players[i % players.length].getNameString();
 			if (name != CPU_NAME && draws == MAX_DRAW) {
 				System.out.println("\n[SYSTEM] " + name + ", do you still want to get a card?");
 				System.out.println("1. Yes\n2. No");
 				int option = scanner.nextInt();
 				if (option == 1) {
-					giveCard(hands[i % hands.length]);
+					giveCard(players[i % players.length]);
 				}
+			} else if (name != CPU_NAME) {
+				int option;
+				do {
+					System.out.println("[SYSTEM] I'm distributing cards. Is this " + name + "? ");
+					System.out.println("1. Yes\n2. No");
+					option = scanner.nextInt();
+					if (option == 1) {
+						giveCard(players[i % players.length]);
+					} else {
+						System.out.println("[SYSTEM] Let " + name + " answer.");
+					}
+				} while (option != 1);
+				System.out.println("[SYSTEM] Press enter to continue.");
+				try {
+					System.in.read();
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+				System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 			} else {
-				giveCard(hands[i % hands.length]);
+				giveCard(players[i % players.length]);
 			}
-
 		}
 	}
 
 	private void displayCards() {
-		for (Hand hand : hands) {
-			hand.displayAllTalkingCards();
+		for (Player player : players) {
+			player.displayAllTalkingCards();
 		}
 	}
 
 	private void announceWinner() {
 		String winner = null;
 		int highestValue = 0;
-		for (Hand hand : hands) {
-			int handTalkingCardsValue = hand.getTalkingCardsValue();
+		for (Player player : players) {
+			int handTalkingCardsValue = player.getHand().getTalkingCardsValue();
 			if (handTalkingCardsValue > highestValue) {
 				highestValue = handTalkingCardsValue;
-				winner = hand.getNameString();
+				winner = player.getNameString();
 			}
 		}
 		if (winner != null) {
@@ -96,9 +110,9 @@ public class LuckyNineSystem extends CardGameSystem {
 		}
 	}
 
-	private void resetTalkingCards() {
-		for (Hand hand : hands) {
-			hand.releaseAllTalkingCards();
+	private void collectTalkingCards() {
+		for (Player player : players) {
+			player.getHand().releaseAllTalkingCards();
 		}
 	}
 

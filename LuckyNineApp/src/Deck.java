@@ -1,5 +1,7 @@
+import java.util.Arrays;
+import java.util.Collections;
 
-public class Deck {
+public class Deck<T> {
 	final private int SUIT_COUNT = 4;
 	final private int RANK_COUNT = 13;
 
@@ -19,6 +21,7 @@ public class Deck {
 			}
 		}
 	}
+	
 
 	public TalkingCard[][] getTalkingCards() {
 		return talkingCards;
