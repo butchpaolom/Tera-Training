@@ -33,6 +33,10 @@ public class LuckyNineSystem extends CardGameSystem {
 		distributeCards();
 		announceWinner();
 		displayCards();
+		goBreak();
+	}
+	
+	private void goBreak() {
 		try {
 			Thread.sleep(breakTime);
 		} catch (InterruptedException e) {
