@@ -18,8 +18,8 @@ public class Main {
 		new Thread(() -> {
 			while (true) {
 				try {
-					Thread.sleep(3000);
 					carPark.incrementTime();
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

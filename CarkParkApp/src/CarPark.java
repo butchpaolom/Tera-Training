@@ -31,7 +31,7 @@ public class CarPark {
 	}
 	
 	public void incrementTime() {
-		++clock;
+		System.out.println("Time: " + ++clock);
 	}
 
 	private synchronized void clearCars(List<Car> clearList) {

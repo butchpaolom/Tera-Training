@@ -13,7 +13,7 @@ public class Car {
 		this.entryTime = entryTime;
 		this.ID = ID;
 		this.lengthOfStay = new Random().nextInt(15) + 1;
-		System.out.println("New car " + ID + " will stay in " + lengthOfStay);
+		System.out.println("New car #" + ID + " will stay in " + lengthOfStay);
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
