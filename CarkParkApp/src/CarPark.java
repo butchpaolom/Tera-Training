@@ -1,18 +1,20 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class CarPark implements Runnable {
+public class CarPark{
 	final static private int FEE = 10;
-
+	
 	private ArrayList<Car> slots = new ArrayList<Car>();
 
 	private int clock;
 	private int lastId;
 
-	public void checkCars() {
-		List<Car> clearList = new ArrayList<Car>();
+	public void checkCars() throws InterruptedException{
 		synchronized (this) {
+			wait();
+			List<Car> clearList = new ArrayList<Car>();
 			for (Car car : slots) {
 				if (car.willCheckout(clock)) {
 					clearList.add(car);
@@ -22,14 +24,18 @@ public class CarPark implements Runnable {
 		}
 	}
 
-	public void incrementTime() {
+	public synchronized void incrementTime() {
 		System.out.println("Time: " + ++clock);
+		notifyAll();
 	}
 
-	public synchronized void checkSlot() {
-		boolean willAdd = new Random().nextInt(100) < 65 ? true : false;
-		if (slots.size() < 10 && willAdd) {
-			slots.add(new Car(++lastId, clock, FEE));
+	public void checkSlot() throws InterruptedException {
+		synchronized (this) {
+			wait();
+			boolean willAdd = new Random().nextInt(100) < 65 ? true : false;
+			if (slots.size() < 10 && willAdd) {
+				slots.add(new Car(++lastId, clock, FEE));
+			}
 		}
 	}
 
@@ -44,39 +50,4 @@ public class CarPark implements Runnable {
 		slots.removeAll(clearList);
 	}
 
-	@Override
-	public void run() {
-		new Thread(() -> {
-			while (true) {
-				try {
-					Thread.sleep(3000);
-					checkSlot();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-
-		new Thread(() -> {
-			while (true) {
-				try {
-					incrementTime();
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-
-		new Thread(() -> {
-			while (true) {
-				try {
-					checkCars();
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-	}
 }
