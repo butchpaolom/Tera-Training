@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CarPark implements Runnable{
+public class CarPark implements Runnable {
 	final static private int FEE = 10;
-	
+
 	private ArrayList<Car> slots = new ArrayList<Car>();
 
 	private int clock;
@@ -18,8 +18,8 @@ public class CarPark implements Runnable{
 					clearList.add(car);
 				}
 			}
+			new Thread(()->clearCars(clearList)).start();
 		}
-		clearCars(clearList);
 	}
 
 	public void incrementTime() {
@@ -56,7 +56,7 @@ public class CarPark implements Runnable{
 				}
 			}
 		}).start();
-		
+
 		new Thread(() -> {
 			while (true) {
 				try {
@@ -71,8 +71,8 @@ public class CarPark implements Runnable{
 		new Thread(() -> {
 			while (true) {
 				try {
-					Thread.sleep(3000);
 					checkCars();
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
