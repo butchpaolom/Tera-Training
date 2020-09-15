@@ -5,6 +5,7 @@ import java.util.Random;
 public class CarPark {
 
 	private ArrayList<Car> slots = new ArrayList<Car>();
+	final private int FEE = 10;
 
 	private int clock;
 	private int lastId;
@@ -13,7 +14,7 @@ public class CarPark {
 	public synchronized void checkSlot() {
 		boolean willAdd = new Random().nextInt(100) < 65 ? true : false;
 		if (slots.size() < 10 && willAdd) {
-			slots.add(new Car(++lastId, clock));
+			slots.add(new Car(++lastId, clock, FEE));
 		}
 	}
 
@@ -25,11 +26,15 @@ public class CarPark {
 					clearList.add(car);
 				}
 			}
-			clearCars(clearList);
 		}
+		clearCars(clearList);
+	}
+	
+	public void incrementTime() {
+		++clock;
 	}
 
-	private void clearCars(List<Car> clearList) {
+	private synchronized void clearCars(List<Car> clearList) {
 		for (Car car : clearList) {
 			try {
 				car.checkout();
@@ -39,9 +44,4 @@ public class CarPark {
 		}
 		slots.removeAll(clearList);
 	}
-
-	public void incrementTime() {
-		System.out.println("Time is: " + ++clock);
-	}
-
 }

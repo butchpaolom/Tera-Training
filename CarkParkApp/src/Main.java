@@ -6,8 +6,8 @@ public class Main {
 		new Thread(() -> {
 			while (true) {
 				try {
+					Thread.sleep(3000);
 					carPark.checkSlot();
-					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -29,7 +29,7 @@ public class Main {
 		new Thread(() -> {
 			while (true) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 					carPark.checkCars();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
