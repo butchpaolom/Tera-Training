@@ -29,7 +29,6 @@ public class CarParkApp{
 			while (true) {
 				try {
 					carPark.incrementClock();
-					Thread.sleep(TIME_FACTOR*TIME_PREFIX);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

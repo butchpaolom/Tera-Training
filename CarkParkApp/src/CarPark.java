@@ -21,9 +21,12 @@ public class CarPark {
 		}
 	}
 
-	public synchronized void incrementClock() {
-		System.out.println("Time: " + ++clock);
-		notifyAll();
+	public void incrementClock() throws InterruptedException {
+		synchronized (this) {
+			System.out.println("Time: " + ++clock);
+			notifyAll();
+		}
+		Thread.sleep(CarParkApp.TIME_UNIT);
 	}
 
 	public void checkSlot() throws InterruptedException {
