@@ -1,0 +1,22 @@
+<taglib>
+   <tlib-version>1.0</tlib-version>
+   <jsp-version>2.0</jsp-version>
+   
+   <tag>
+      <name>Person</name>
+      <tag-class>com.tags.PersonTag</tag-class>
+      <body-content>scriptless</body-content>
+      
+      <attribute>
+         <name>data</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+   
+    <tag>
+      <name>User</name>
+      <tag-class>com.tags.UserTag</tag-class>
+      <body-content>empty</body-content>
+    </tag>
+</taglib>
